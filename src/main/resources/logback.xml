@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+ 
+
+  <jmxConfigurator />
+  <property resource="config/config.properties" />
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%-5p %d [%t]  %c{20}: %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${log.directory:-/local/logs/esb}/${app.name:-esb-app-monitorcursor}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <fileNamePattern>${log.directory:-/local/logs/esb}/${app.name:-esb-app-monitorcursor}.log.%i</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>5</maxIndex>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>20MB</maxFileSize>
+    </triggeringPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.apache">
+    <level value="WARN" />
+  </logger>
+
+
+  <logger name="com.pointcarbon.esb.transport.oracle">
+    <level value="${log.oracle.level:-WARN}" />
+  </logger>
+
+  <logger name="com.pointcarbon">
+    <level value="${log.pointcarbon.level:-INFO}" />
+  </logger>
+
+
+  <logger name="oracle">
+    <level value="${log.oracle.level:-WARN}" />
+  </logger>
+
+
+  <logger name="org.springframework">
+    <level value="${log.oracle.level:-WARN}" />
+  </logger>
+
+  <logger name="com.tr.monitor">
+    <level value="${log.level:-INFO}" />
+  </logger>
+ 
+  <root>
+    <level value="${log.root.level:-OFF}" />
+    <appender-ref ref="${log.appender:-FILE}" />
+  </root>
+</configuration>
